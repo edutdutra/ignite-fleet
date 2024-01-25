@@ -1,12 +1,14 @@
-import {IOS_CLIENT_ID, WEB_CLIENT_ID} from "@env";
-import {GoogleSignin} from "@react-native-google-signin/google-signin";
-
-import backgroundImg from '../../assets/background.png'
-import {Container, Slogan, Title} from "./styles";
-import {Button} from "../../components/Button";
 import {useState} from "react";
 import {Alert} from "react-native";
 import {useApp} from "@realm/react";
+import {GoogleSignin} from "@react-native-google-signin/google-signin";
+
+import {Button} from "../../components/Button";
+
+import backgroundImg from '../../assets/background.png'
+import {Container, Slogan, Title} from "./styles";
+import {IOS_CLIENT_ID, WEB_CLIENT_ID} from "@env";
+
 
 GoogleSignin.configure({
     scopes: ['email', 'profile'],
