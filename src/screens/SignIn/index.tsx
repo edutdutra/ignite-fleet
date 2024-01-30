@@ -9,6 +9,8 @@ import backgroundImg from '../../assets/background.png'
 import {Container, Slogan, Title} from "./styles";
 import {IOS_CLIENT_ID, WEB_CLIENT_ID} from "@env";
 
+import Realm from "realm"
+
 
 GoogleSignin.configure({
     scopes: ['email', 'profile'],
