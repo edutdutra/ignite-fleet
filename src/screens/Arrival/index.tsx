@@ -35,6 +35,25 @@ export function Arrival() {
         )
     }
 
+    function handleArrivalRegister() {
+        try {
+            if (!historic) {
+                Alert.alert('Error', 'Não foi possível obter os dados para registrar a chegada do veículo.')
+            } else {
+                realm.write(() => {
+                    historic.status = 'arrival';
+                    historic.updated_at = new Date();
+                })
+
+                Alert.alert('Chegada', 'Chegada registrada com sucesso!')
+                goBack();
+            }
+        } catch (error) {
+            console.log(error);
+            Alert.alert('Error', 'Não foi possível registrar a chegada do veículo.')
+        }
+    }
+
     function removeVehicleUsage() {
         realm.write(() => {
             realm.delete(historic)
@@ -69,6 +88,7 @@ export function Arrival() {
 
                     <Button
                         title="Registrar chegada"
+                        onPress={handleArrivalRegister}
                     />
                 </Footer>
             </Content>
