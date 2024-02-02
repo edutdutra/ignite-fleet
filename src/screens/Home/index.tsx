@@ -11,14 +11,16 @@ import {Container, Content, Label, Title} from "./styles";
 import {useQuery, useRealm} from "../../libs/realm";
 import {Historic} from "../../libs/realm/schemas/Historic";
 import dayjs from "dayjs";
+import {useUser} from "@realm/react";
 
 export function Home() {
     const [vehicleInUse, setVehicleInUse] = useState<Historic | null>(null);
     const [vehicleHistoric, setVehicleHistoric] = useState<HistoricCardProps[]>([]);
 
     const realm = useRealm();
-    const {navigate} = useNavigation()
-    const historic = useQuery(Historic)
+    const user = useUser();
+    const {navigate} = useNavigation();
+    const historic = useQuery(Historic);
 
     function handleRegisterMovement() {
         if (vehicleInUse?._id) {
@@ -81,6 +83,14 @@ export function Home() {
     useEffect(() => {
         fetchHistoric();
     }, [historic]);
+
+    useEffect(() => {
+        realm.subscriptions.update((mutableSubscriptions, realm) => {
+            const historicByUserQuery = realm.objects('Historic').filtered(`user_id = '${user!.id}'`);
+
+            mutableSubscriptions.add(historicByUserQuery, {name: 'historic_by_user'})
+        })
+    }, [realm]);
 
     return (
         <Container>

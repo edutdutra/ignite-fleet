@@ -8,7 +8,7 @@ import {SafeAreaProvider} from "react-native-safe-area-context";
 import {Roboto_400Regular, Roboto_700Bold, useFonts} from "@expo-google-fonts/roboto";
 
 import {REALM_APP_ID} from "@env";
-import {RealmProvider} from './src/libs/realm'
+import {RealmProvider, syncConfig} from './src/libs/realm'
 
 import {Routes} from "./src/routes";
 import {SignIn} from "./src/screens/SignIn";
@@ -36,7 +36,7 @@ export default function App() {
                         translucent
                     />
                     <UserProvider fallback={SignIn}>
-                        <RealmProvider>
+                        <RealmProvider sync={syncConfig} fallback={Loading}>
                             <Routes/>
                         </RealmProvider>
                     </UserProvider>
