@@ -13,6 +13,7 @@ import {X} from "phosphor-react-native";
 import {AsyncMessage, Container, Content, Description, Footer, Label, LicensePlate} from "./styles";
 import {useEffect, useState} from "react";
 import {getLastSyncTimestamp} from "../../libs/asyncStorage/syncStorage";
+import {stopLocationTask} from "../../tasks/backgroundLocationTask";
 
 type RouteParamsProps = {
     id: string
@@ -41,11 +42,13 @@ export function Arrival() {
         )
     }
 
-    function handleArrivalRegister() {
+    async function handleArrivalRegister() {
         try {
             if (!historic) {
                 Alert.alert('Error', 'Não foi possível obter os dados para registrar a chegada do veículo.')
             } else {
+                await stopLocationTask();
+
                 realm.write(() => {
                     historic.status = 'arrival';
                     historic.updated_at = new Date();
